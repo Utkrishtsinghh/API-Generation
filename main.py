@@ -5,6 +5,12 @@ from models import ProductResponse
 
 app = FastAPI()
 
+@app.get("/")
+def root():
+    return {
+        "message": "Welcome to the Product API! Visit /api/products to see the products."
+    }
+
 @app.get("/api/products", response_model=ProductResponse)
 def get_products(pageNumber: int = Query(1, ge=1), pageSize: int = Query(10, ge=1)):
     db_products = fetch_products_from_db()
@@ -27,7 +33,6 @@ def get_products(pageNumber: int = Query(1, ge=1), pageSize: int = Query(10, ge=
     if end <= db_total:
         paginated = db_products[start:end]
     else:
-       
         if start < db_total:
             paginated.extend(db_products[start:db_total])
         
