@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Products</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Product List</h1>
+  <ul id="products"></ul>
+
+  <script>
+    fetch("https://api-generation-il2m.onrender.com/api/products?pageNumber=1&pageSize=10")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("products");
+        data.products.forEach(product => {
+          const item = document.createElement("li");
+          item.textContent = `${product.name} - $${product.price}`;
+          list.appendChild(item);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching products:", error);
+      });
+  </script>
+</body>
+</html>
